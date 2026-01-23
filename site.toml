@@ -11,7 +11,7 @@ name = "Sergio Rivera"
 # Handle external sources of content
 [sync]
 type = "obsidian"
-path = "/Users/sergiorivera/Obsidian/Personal Vault/97. Blog"
+path = "/Users/sergiorivera/Obsidian/Personal Vault/97. Blog"  # ! SECURITY ISSUE: may expose local paths on /data.json
 
 [server]
 port = 8000

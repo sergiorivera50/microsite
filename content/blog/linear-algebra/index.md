@@ -36,6 +36,7 @@ Another typical use case is that of fitting a curve to a dataset that best descr
 
 > Figure 1. The data $X$ describes an underlying function $f(x)$
 
+
 Although we will not yet show how to achieve this, you must at least be aware that plenty of fields in the real world use methods like _polynomial regression_ to approximate these curves in order to help them predict new observations. Some of the more prominent being healthcare, economics, and environmental science.
 
 All in all, we see these kinds of problems all the time, from simpler linear regression models to more complex supply chain management. Linear algebra truly is the backbone of data science and knowing its foundations really well will definitely set you apart and allow you to better understand the mathematics behind most of your tools.

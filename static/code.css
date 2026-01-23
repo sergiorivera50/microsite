@@ -11,6 +11,18 @@
     --code-variable: #9cdcfe;
 }
 
+code {
+    border: 1px solid #3a3a3a;
+    border-radius: 4px;
+    background-color: var(--code-background);
+    padding: 2px 3px;
+}
+
+code:hover {
+    color: white;
+    transition: ease-in 100ms;
+}
+
 .code-block {
     background-color: #1e1e1e;
     border: 1px solid #3a3a3a;
