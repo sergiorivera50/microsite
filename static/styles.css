@@ -154,30 +154,61 @@ ul.blog-posts li a:visited {
     color: var(--visited-color);
 }
 
+/* profile */
+
 .profile-container {
     max-width: 800px;
-    margin: 0 auto;
+    margin: 1.5rem auto;
 }
 
-.profile-content::after {
-    content: "";
-    display: table;
-    clear: both;
+.profile-content {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
 }
 
 .profile-image {
-    float: left;
-    width: 86px;
-    margin: 0px 12px 0 0;
-    border-radius: 8px;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    flex-shrink: 0;
+    border-radius: 50%;
+}
+
+.profile-text {
+    flex: 1;
+}
+
+.profile-text p:first-child {
+    margin-top: 0;
 }
 
 @media (max-width: 575.98px) {
-    .profile-image {
-        width: 64px;
+    .profile-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
     }
+    
+}
 
-    .post-content > p {
-        text-align: left;
-    }
+.post-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.post-author {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.author-image {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
 }

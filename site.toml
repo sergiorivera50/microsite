@@ -8,6 +8,10 @@ language = "en"
 [author]
 name = "Sergio Rivera"
 
+# Home route settings
+[home]
+recent_posts = 5
+
 # Handle external sources of content
 [sync]
 type = "obsidian"
