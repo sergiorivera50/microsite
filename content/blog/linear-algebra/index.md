@@ -212,3 +212,7 @@ $$
 $$
 
 Which results in the *vector projection* of $\mathbf{s}$ over $\mathbf{r}$, where the result is a vector.
+
+---
+
+Post under construction 🏗️
