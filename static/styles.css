@@ -237,7 +237,36 @@ ul.blog-posts li a:visited {
     margin-right: 3px;
 }
 
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.site-header .title {
+    margin: 0;
+}
+
+.site-header .title h2 {
+    margin: 0;
+}
+
+.site-tagline {
+    color: var(--text-color);
+    opacity: 0.4;
+    font-style: italic;
+}
+
+
 @media (max-width: 575.98px) {
+    .site-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+
     .post-content > p {
         text-align: start;
     }
