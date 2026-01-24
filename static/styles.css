@@ -109,6 +109,10 @@ footer {
     text-align: center;
 }
 
+.title {
+    font-style: italic;
+}
+
 .title:hover {
     text-decoration: none;
 }
