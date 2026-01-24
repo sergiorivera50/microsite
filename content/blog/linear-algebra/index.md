@@ -41,7 +41,7 @@ Although we will not yet show how to achieve this, you must at least be aware th
 
 All in all, we see these kinds of problems all the time, from simpler linear regression models to more complex supply chain management. Linear algebra truly is the backbone of data science and knowing its foundations really well will definitely set you apart and allow you to better understand the mathematics behind most of your tools.
 
-# Vectors
+## Vectors
 
 A vector $\mathbf{v} \in \mathbb{R}^{n}$ is an ordered tuple of $n$ scalars. We can think of vectors as points in space, directions, or quantities that have both magnitude and direction. For example, a vector in two-dimensional space is written as $\mathbf{v} = \begin{bmatrix} v_1 \\ v_2 \end{bmatrix}$, and in three-dimensional space as $\mathbf{v} = \begin{bmatrix} v_1 \\ v_2 \\ v_3 \end{bmatrix}$.
 

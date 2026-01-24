@@ -2,56 +2,175 @@
     #progress-container {
         position: fixed;
         top: 50%;
-        left: 5%;
+        left: calc((100vw - 720px) / 2 - 220px);
         transform: translateY(-50%);
-        width: 2px;
-        height: 50%;
-        background: rgba(114, 114, 114, 0.1);
-        opacity: 0; /* Initially hidden */
+        width: 170px;
+        opacity: 0;
         transition: opacity 0.5s ease;
+        font-size: 0.85rem;
+        line-height: 1.5;
     }
 
-    #progress-bar {
-        width: 100%;
-        background: #fff;
-        height: 0;
+    #progress-container.visible {
+        opacity: 1;
+    }
+
+    #progress-toc {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        position: relative;
+    }
+
+    /* Background track */
+    #progress-toc::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: rgba(114, 114, 114, 0.2);
+    }
+
+    /* Progress fill */
+    #progress-fill {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 2px;
+        height: 0%;
+        background: var(--link-color);
         transition: height 0.1s ease;
     }
 
-    /* Only show progress bar on larger screens */
-    @media (min-width: 860px) {
-        #progress-container.visible {
-            opacity: 1;
+    #progress-toc li {
+        padding: 0.35rem 0 0.35rem 0.85rem;
+        margin-left: 2px;
+        transition: all 0.2s ease;
+    }
+
+    #progress-toc li a {
+        color: var(--text-color);
+        opacity: 0.4;
+        text-decoration: none;
+        display: block;
+        transition: opacity 0.2s ease;
+    }
+
+    #progress-toc li a:hover {
+        opacity: 0.8;
+        text-decoration: none;
+    }
+
+    #progress-toc li.active a {
+        opacity: 1;
+        color: var(--link-color);
+    }
+
+    /* Indent h3s */
+    #progress-toc li.toc-h3 {
+        padding-left: 1.5rem;
+        font-size: 0.8rem;
+    }
+
+    /* Hide on smaller screens */
+    @media (max-width: 1200px) {
+        #progress-container {
+            display: none;
         }
     }
 </style>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Create the progress bar elements
-        document.body.innerHTML += `
-            <div id="progress-container">
-                <div id="progress-bar"></div>
-            </div>
-        `;
+        const postContent = document.querySelector('.post-content');
+        if (!postContent) return;
 
-        const progressContainer = document.getElementById('progress-container');
-        const progressBar = document.getElementById('progress-bar');
-        const threshold = 300; // Set threshold in pixels
+        const headings = postContent.querySelectorAll('h2, h3');
+        
+        // Build TOC HTML
+        let tocHTML = '<div id="progress-fill"></div><ul id="progress-toc">';
+        
+        if (headings.length > 0) {
+            headings.forEach((heading, index) => {
+                if (!heading.id) {
+                    heading.id = 'heading-' + index;
+                }
+                
+                const level = heading.tagName.toLowerCase();
+                const text = heading.textContent.length > 25 
+                    ? heading.textContent.substring(0, 25) + '…' 
+                    : heading.textContent;
+                
+                tocHTML += `<li class="toc-${level}" data-target="${heading.id}">
+                    <a href="#${heading.id}">${text}</a>
+                </li>`;
+            });
+        }
+        tocHTML += '</ul>';
 
-        document.addEventListener('scroll', () => {
+        // Create container
+        const progressContainer = document.createElement('div');
+        progressContainer.id = 'progress-container';
+        progressContainer.innerHTML = tocHTML;
+        document.body.appendChild(progressContainer);
+
+        const progressFill = document.getElementById('progress-fill');
+        const tocItems = progressContainer.querySelectorAll('li');
+        const threshold = 300;
+
+        function updateProgress() {
             const scrollTop = window.scrollY;
             const docHeight = document.documentElement.scrollHeight - window.innerHeight;
             const scrolled = (scrollTop / docHeight) * 100;
 
-            // Show progress bar after crossing the threshold
+            // Show/hide based on scroll position
             if (scrollTop > threshold) {
                 progressContainer.classList.add('visible');
             } else {
                 progressContainer.classList.remove('visible');
             }
 
-            // Update progress bar height
-            progressBar.style.height = scrolled + '%';
+            // Update progress bar fill
+            progressFill.style.height = scrolled + '%';
+
+            // Find current active heading (trigger at 50% of viewport)
+            if (headings.length > 0) {
+                const viewportMiddle = window.innerHeight * 0.5;
+                let activeIndex = 0;
+                
+                headings.forEach((heading, index) => {
+                    const rect = heading.getBoundingClientRect();
+                    if (rect.top <= viewportMiddle) {
+                        activeIndex = index;
+                    }
+                });
+
+                // Update active states
+                tocItems.forEach((item, index) => {
+                    if (index === activeIndex) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+            }
+        }
+
+        // Smooth scroll on click
+        tocItems.forEach(item => {
+            item.querySelector('a').addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = item.dataset.target;
+                const target = document.getElementById(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
         });
+
+        document.addEventListener('scroll', updateProgress);
+        updateProgress();
     });
 </script>
