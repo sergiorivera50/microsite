@@ -22,8 +22,13 @@
     <header class="post-header">
         <h1>{{ page.title }}</h1>
         <div class="post-meta">
-            <i><time>{{ page.date_formatted }}</time></i>
+            <span class="post-meta-left">
+                <i><time>{{ page.date_formatted }}</time></i>
+                <span class="meta-separator">·</span>
+                <i><span class="reading-time">{{ page.reading_time }} min read</span></i>
+            </span>
             <span class="post-author">
+                <i class="written-by">written by</i>
                 <img src="/author.webp" alt="Sergio Rivera" class="author-image">
                 <strong>{{ site.author.name }}</strong>
             </span>

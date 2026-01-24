@@ -24,6 +24,23 @@ def split_content(html, delimiter='<!-- split -->'):
         'rest': parts[1].strip() if len(parts) > 1 else ''
     }
 
+def calculate_reading_time(content, words_per_minute=200):
+    """Calculate estimated reading time in minutes"""
+    # Strip LaTeX blocks
+    text = re.sub(r'\$\$.*?\$\$', '', content, flags=re.DOTALL)  # block math
+    text = re.sub(r'\$.*?\$', '', text)  # inline math
+    
+    # Strip HTML tags
+    text = re.sub(r'<[^>]+>', '', text)
+    
+    # Count words
+    words = len(text.split())
+    
+    # Calculate minutes, minimum 1
+    minutes = max(1, round(words / words_per_minute))
+    
+    return minutes
+
 def load_config(file_path):
     """Load configuration from a TOML file"""
     try:

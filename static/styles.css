@@ -179,23 +179,6 @@ ul.blog-posts li a:visited {
     flex: 1;
 }
 
-
-@media (max-width: 575.98px) {
-    .post-content > p {
-        text-align: start;
-    }
-
-    .profile-content, .profile-extended {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .profile-extended {
-        margin-top: 0 !important;
-    }
-}
-
 .post-meta {
     display: flex;
     justify-content: space-between;
@@ -229,4 +212,45 @@ ul.blog-posts li a:visited {
 
 .profile-extended p:first-child {
     margin-top: 0;
+}
+
+.post-meta-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.meta-separator {
+    color: var(--text-color);
+}
+
+.reading-time {
+    font-size: 0.9rem;
+}
+
+.written-by {
+    display: block;
+    margin-right: 3px;
+}
+
+@media (max-width: 575.98px) {
+    .post-content > p {
+        text-align: start;
+    }
+
+    .profile-content, .profile-extended {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .profile-extended {
+        margin-top: 0 !important;
+    }
+}
+
+@media (max-width: 470px) {
+    .written-by {
+        display: none;
+    }
 }

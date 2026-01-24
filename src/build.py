@@ -13,7 +13,7 @@ from jinja2 import Environment, FileSystemLoader
 
 from src.utils import (
     render_markdown, slugify, ensure_dir, copy_files, generate_url, generate_sitemap, load_config, process_assets,
-    create_blog_index, split_content
+    create_blog_index, split_content, calculate_reading_time
 )
 
 # Configuration
@@ -135,6 +135,7 @@ def process_content():
             'date': date,
             'date_formatted': date.strftime("%d %b, %Y"),
             'content': render_markdown(page.content),
+            'reading_time': calculate_reading_time(page.content),
             'url': url,
             'output_path': output_path,
             'metadata': page.metadata,
