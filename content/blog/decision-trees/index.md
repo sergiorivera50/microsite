@@ -1,6 +1,7 @@
 ---
 title: Decision Trees
 math: true
+draft: "true"
 ---
 - They require very little data preparation, no need for feature scaling or centering at all.
 

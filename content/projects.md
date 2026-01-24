@@ -1,6 +1,7 @@
 ---
 title: Projects
 weight: 20
+draft: true
 ---
 
 ### Past projects and work

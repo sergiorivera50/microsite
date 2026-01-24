@@ -104,6 +104,11 @@ def process_content():
         # Parse frontmatter and content
         page = frontmatter.load(str(md_file))
 
+        # Skip drafts marked in frontmatter
+        if page.get('draft', False):
+            print(f'Skipping draft `{md_file}`')
+            continue
+
         # Extract or generate metadata
         title = page.get('title', md_file.stem.replace('-', ' ').title())
         date = page.get('Date', datetime.fromtimestamp(md_file.stat().st_mtime).date())
