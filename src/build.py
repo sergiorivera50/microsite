@@ -13,7 +13,7 @@ from jinja2 import Environment, FileSystemLoader
 
 from src.utils import (
     render_markdown, slugify, ensure_dir, copy_files, generate_url, generate_sitemap, load_config, process_assets,
-    create_blog_index
+    create_blog_index, split_content
 )
 
 # Configuration
@@ -258,6 +258,7 @@ def build_site():
 
     # Add custom filters
     env.filters['slugify'] = slugify
+    env.filters['split_content'] = split_content
 
     # Clean public directory
     if os.path.exists(PUBLIC_DIR):

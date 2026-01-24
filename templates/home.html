@@ -2,21 +2,25 @@
 {% block title %}{{ site.title }}{% endblock %}
 {% block description %}{{ site.description }}{% endblock %}
 {% block content %}
+{% set content_parts = page.content | split_content %}
 <section class="home-content">
     <div class="content">
         <div class="profile-container">
             <div class="profile-content">
                 <img src="/profile.webp" alt="Profile Picture" class="profile-image">
                 <div class="profile-text">
-                    {{ page.content|safe }}
+                    {{ content_parts.intro | safe }}
                 </div>
             </div>
+            {% if content_parts.rest %}
+            <div class="profile-extended">
+                {{ content_parts.rest | safe }}
+            </div>
+            {% endif %}
         </div>
     </div>
 </section>
-
 <hr>
-
 {% if posts %}
 <section class="list-content" style="margin-top: 2rem;">
     <h2>Recent Posts</h2>

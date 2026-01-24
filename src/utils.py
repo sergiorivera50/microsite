@@ -16,6 +16,14 @@ def slugify(text):
     text = re.sub(r'^\-|\-$', '', text)
     return text
 
+def split_content(html, delimiter='<!-- split -->'):
+    """Split homepage content via custom delimiter"""
+    parts = html.split(delimiter)
+    return {
+        'intro': parts[0].strip() if len(parts) > 0 else '',
+        'rest': parts[1].strip() if len(parts) > 1 else ''
+    }
+
 def load_config(file_path):
     """Load configuration from a TOML file"""
     try:
