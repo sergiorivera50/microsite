@@ -1,10 +1,23 @@
+/* ===========================================
+   SERGIORIVERA.DEV - MAIN STYLESHEET
+   =========================================== */
+
+/* ===================
+   1. FONTS & VARIABLES
+   =================== */
+
 @import url('https://fonts.googleapis.com/css2?family=Lugrasimo&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 :root {
+    /* Layout */
     --width: 720px;
+    
+    /* Typography */
     --font-main: "PT Serif", serif;
     --font-special: "Lugrasimo", cursive;
     --font-scale: 1em;
+    
+    /* Colors */
     --background-color: #262626;
     --heading-color: #eee;
     --text-color: #ddd;
@@ -15,6 +28,10 @@
     --code-color: #ddd;
     --blockquote-color: #ccc;
 }
+
+/* ===================
+   2. BASE RESET & DEFAULTS
+   =================== */
 
 html {
     overflow-x: hidden;
@@ -35,6 +52,14 @@ body {
     background-color: var(--background-color);
 }
 
+main {
+    line-height: 1.6;
+}
+
+/* ===================
+   3. TYPOGRAPHY
+   =================== */
+
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-main);
     color: var(--heading-color);
@@ -51,17 +76,8 @@ a:hover {
     text-decoration: underline;
 }
 
-nav a {
-    margin-right: 8px;
-}
-
 strong, b {
     color: var(--heading-color);
-}
-
-button {
-    margin: 0;
-    cursor: pointer;
 }
 
 time {
@@ -70,18 +86,21 @@ time {
     font-size: 14px;
 }
 
-main {
-    line-height: 1.6;
-}
-
-table {
-    width: 100%;
+blockquote {
+    border-left: 1px solid #999;
+    color: var(--code-color);
+    padding-left: 20px;
+    font-style: italic;
 }
 
 hr {
     border: 0;
     border-top: 1px dashed;
 }
+
+/* ===================
+   4. IMAGES & MEDIA
+   =================== */
 
 img {
     max-width: 100%;
@@ -97,145 +116,26 @@ figure > figcaption {
     text-align: center;
 }
 
-blockquote {
-    border-left: 1px solid #999;
-    color: var(--code-color);
-    padding-left: 20px;
-    font-style: italic;
+/* ===================
+   5. TABLES
+   =================== */
+
+table {
+    width: 100%;
 }
 
-footer {
-    padding: 25px 0;
-    text-align: center;
+/* ===================
+   6. BUTTONS & FORMS
+   =================== */
+
+button {
+    margin: 0;
+    cursor: pointer;
 }
 
-.title {
-    font-style: italic;
-}
-
-.title:hover {
-    text-decoration: none;
-}
-
-.title h1 {
-    font-size: 1.5em;
-}
-
-.inline {
-    width: auto !important;
-}
-
-/* blog post content */
-.post-header > h1 {
-    line-height: 1.25;
-    font-size: 2.0em;
-}
-
-.post-content > p {
-    text-align: justify;
-}
-
-.post-content img {
-    display: block;
-    margin: auto;
-}
-
-/* blog post list */
-ul.blog-posts {
-    list-style-type: none;
-    padding: unset;
-}
-
-ul.blog-posts li {
-    display: flex;
-}
-
-ul.blog-posts li span {
-    flex: 0 0 130px;
-}
-
-ul.blog-posts li a:visited {
-    color: var(--visited-color);
-}
-
-/* profile */
-
-.profile-container {
-    max-width: 800px;
-    margin: 1.5rem auto;
-}
-
-.profile-content {
-    display: flex;
-    gap: 1.5rem;
-    align-items: flex-start;
-}
-
-.profile-image {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    flex-shrink: 0;
-    border-radius: 50%;
-}
-
-.profile-text {
-    flex: 1;
-}
-
-.post-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.post-author {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-}
-
-.author-image {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.profile-content {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
-}
-
-.profile-extended {
-    margin-top: 1.2rem;
-}
-
-.profile-extended p:first-child {
-    margin-top: 0;
-}
-
-.post-meta-left {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.meta-separator {
-    color: var(--text-color);
-}
-
-.reading-time {
-    font-size: 0.9rem;
-}
-
-.written-by {
-    display: block;
-    margin-right: 3px;
-}
+/* ===================
+   7. SITE HEADER
+   =================== */
 
 .site-header {
     display: flex;
@@ -253,25 +153,264 @@ ul.blog-posts li a:visited {
     margin: 0;
 }
 
+.title {
+    font-style: italic;
+}
+
+.title:hover {
+    text-decoration: none;
+}
+
+.title h1 {
+    font-size: 1.5em;
+}
+
 .site-tagline {
     color: var(--text-color);
     opacity: 0.4;
     font-style: italic;
 }
 
+/* ===================
+   8. NAVIGATION
+   =================== */
+
+nav a {
+    margin-right: 8px;
+}
+
+/* ===================
+   9. FOOTER
+   =================== */
+
+footer {
+    padding: 25px 0;
+    text-align: center;
+}
+
+/* ===================
+   10. HOME PAGE - PROFILE
+   =================== */
+
+.profile-container {
+    max-width: 800px;
+    margin: 1.5rem auto;
+}
+
+.profile-content {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.profile-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    flex-shrink: 0;
+    border-radius: 50%;
+}
+
+.profile-text {
+    flex: 1;
+}
+
+.profile-extended {
+    margin-top: 1.2rem;
+}
+
+.profile-extended p:first-child {
+    margin-top: 0;
+}
+
+/* ===================
+   11. BLOG POST LIST
+   =================== */
+
+ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+}
+
+ul.blog-posts li {
+    display: flex;
+}
+
+ul.blog-posts li span {
+    flex: 0 0 130px;
+}
+
+ul.blog-posts li a:visited {
+    color: var(--visited-color);
+}
+
+/* ===================
+   12. BLOG POST - HEADER & META
+   =================== */
+
+.post-header > h1 {
+    line-height: 1.25;
+    font-size: 2.0em;
+}
+
+.post-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.post-meta-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.meta-separator {
+    color: var(--text-color);
+}
+
+.reading-time {
+    font-size: 0.9rem;
+}
+
+.post-author {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.author-image {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.written-by {
+    display: block;
+    margin-right: 3px;
+}
+
+/* ===================
+   13. BLOG POST - CONTENT
+   =================== */
+
+/* Text */
+.post-content > p {
+    text-align: justify;
+    margin-bottom: 1.25rem;
+}
+
+/* Headings */
+.post-content h2 {
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.post-content h3 {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.post-content h4 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Lists */
+.post-content ul,
+.post-content ol {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+}
+
+.post-content li {
+    margin-bottom: 0.4rem;
+}
+
+/* Inline code */
+.post-content code {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 0.15em 0.35em;
+    border-radius: 4px;
+    font-size: 0.9em;
+    word-break: break-word;
+}
+
+/* Images */
+.post-content img {
+    display: block;
+    margin: 1.5rem auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+/* Tables */
+.post-content table {
+    margin: 1.5rem 0;
+    border-collapse: collapse;
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+}
+
+.post-content th,
+.post-content td {
+    padding: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: left;
+}
+
+.post-content th {
+    background: rgba(255, 255, 255, 0.05);
+    font-weight: bold;
+}
+
+/* Blockquotes */
+.post-content blockquote {
+    border-left: 2px solid var(--link-color);
+    font-style: italic;
+    color: var(--blockquote-color);
+}
+
+.post-content blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+/* ===================
+   14. UTILITIES
+   =================== */
+
+.inline {
+    width: auto !important;
+}
+
+/* ===================
+   15. RESPONSIVE - TABLET
+   =================== */
+
+@media (max-width: 768px) {
+    /* Add tablet-specific styles here if needed */
+}
+
+/* ===================
+   16. RESPONSIVE - MOBILE
+   =================== */
 
 @media (max-width: 575.98px) {
+    /* Site header */
     .site-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.25rem;
     }
 
-    .post-content > p {
-        text-align: start;
-    }
-
-    .profile-content, .profile-extended {
+    /* Profile */
+    .profile-content,
+    .profile-extended {
         flex-direction: column;
         align-items: center;
         text-align: center;
@@ -279,6 +418,11 @@ ul.blog-posts li a:visited {
 
     .profile-extended {
         margin-top: 0 !important;
+    }
+
+    /* Post content */
+    .post-content > p {
+        text-align: start;
     }
 }
 
