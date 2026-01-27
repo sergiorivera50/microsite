@@ -1,6 +1,30 @@
 {% extends "base.html" %}
 {% block title %}{{ site.title }}{% endblock %}
 {% block description %}{{ site.description }}{% endblock %}
+{% block head %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "{{ site.author.name }}",
+    "url": "{{ site.base_url }}",
+    "image": "{{ site.base_url }}/author.webp",
+    "jobTitle": "Senior Data Scientist",
+    "worksFor": {
+        "@type": "Organization",
+        "name": "Deloitte"
+    },
+    "alumniOf": {
+        "@type": "CollegeOrUniversity",
+        "name": "University of Cambridge"
+    },
+    "knowsAbout": ["Data Science", "Deep Learning", "Machine Learning", "Applied Mathematics"],
+    "sameAs": [
+        "https://linkedin.com/in/sergioriveralopez/"
+    ]
+}
+</script>
+{% endblock %}
 {% block content %}
 {% set content_parts = page.content | split_content %}
 <section class="home-content">
