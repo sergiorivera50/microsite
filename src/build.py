@@ -13,7 +13,7 @@ from jinja2 import Environment, FileSystemLoader
 
 from src.utils import (
     render_markdown, slugify, ensure_dir, copy_files, generate_url, generate_sitemap, load_config, process_assets,
-    create_blog_index, split_content, calculate_reading_time
+    create_blog_index, split_content, calculate_reading_time, optimize_images, update_html_image_references
 )
 
 # Configuration
@@ -272,6 +272,11 @@ def build_site():
     # Copy asset files from content
     copy_content_assets()
 
+    # Optimize images (convert to WebP)
+    webp_quality = config.get("build", {}).get("webp_quality", 85)
+    optimize_images(PUBLIC_DIR, quality=webp_quality)
+    update_html_image_references(PUBLIC_DIR)
+
     # Process content
     content = process_content()
 
@@ -341,6 +346,11 @@ def build_site():
             f.write(html)
 
     generate_sitemap(content['pages'], config, PUBLIC_DIR)
+
+    # Optimize images after all HTML is generated
+    webp_quality = config.get("build", {}).get("webp_quality", 85)
+    optimize_images(PUBLIC_DIR, quality=webp_quality)
+    update_html_image_references(PUBLIC_DIR)
 
     print(f"Site built successfully! {len(content['pages'])} pages processed.")
 

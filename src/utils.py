@@ -4,6 +4,7 @@ from pathlib import Path
 from datetime import datetime
 import tomli
 import shutil
+from PIL import Image
 
 # ===============
 # Basic Utilities
@@ -186,6 +187,97 @@ def render_markdown(text):
         html = html.replace(placeholder, latex)
 
     return html
+
+# Supported image formats for conversion
+IMAGE_EXTENSIONS = {'.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff'}
+
+def optimize_images(public_dir, quality=85):
+    """
+    Convert all images in public directory to WebP format.
+    Called during build step, after all assets are copied.
+    """
+    
+    public_path = Path(public_dir)
+    optimized = 0
+    total_saved = 0
+    
+    # Find all convertible images in public directory
+    for img_path in public_path.glob("**/*"):
+        if img_path.suffix.lower() not in IMAGE_EXTENSIONS:
+            continue
+        
+        if img_path.is_dir():
+            continue
+        
+        webp_path = img_path.with_suffix('.webp')
+        
+        # Skip if WebP already exists
+        if webp_path.exists():
+            continue
+        
+        try:
+            original_size = img_path.stat().st_size
+            
+            with Image.open(img_path) as img:
+                if img.mode in ('RGBA', 'LA', 'P'):
+                    if img.mode == 'P':
+                        img = img.convert('RGBA')
+                    img.save(webp_path, 'WEBP', quality=quality, lossless=False)
+                else:
+                    if img.mode != 'RGB':
+                        img = img.convert('RGB')
+                    img.save(webp_path, 'WEBP', quality=quality, lossless=False)
+            
+            new_size = webp_path.stat().st_size
+            saved = original_size - new_size
+            total_saved += saved
+            
+            # Delete original
+            img_path.unlink()
+            
+            optimized += 1
+            
+        except Exception as e:
+            print(f"  Warning: Failed to optimize {img_path.name}: {e}")
+    
+    if optimized > 0:
+        print(f"Optimized {optimized} images, saved {total_saved / 1024:.1f} KB")
+
+def update_html_image_references(public_dir):
+    """
+    Update all HTML files to reference WebP images instead of original formats.
+    Called after optimize_images().
+    """
+    public_path = Path(public_dir)
+    updated_files = 0
+    
+    for html_path in public_path.glob("**/*.html"):
+        try:
+            with open(html_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            original_content = content
+            
+            # Replace image extensions in src attributes
+            for ext in IMAGE_EXTENSIONS:
+                # Handle both src="..." and src='...'
+                content = re.sub(
+                    rf'(src=["\'][^"\']*){ext}(["\'])',
+                    r'\1.webp\2',
+                    content,
+                    flags=re.IGNORECASE
+                )
+            
+            if content != original_content:
+                with open(html_path, 'w', encoding='utf-8') as f:
+                    f.write(content)
+                updated_files += 1
+                
+        except Exception as e:
+            print(f"  Warning: Failed to update {html_path.name}: {e}")
+    
+    if updated_files > 0:
+        print(f"Updated image references in {updated_files} HTML files")
 
 # ======================
 # External Sync Features

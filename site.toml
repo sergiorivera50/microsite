@@ -4,6 +4,9 @@ description = "A simple blog built with a minimal static site generator"
 base_url = "https://sergiorivera.dev"
 language = "en"
 
+[build]
+webp_quality = 85
+
 # Author information
 [author]
 name = "Sergio Rivera"
