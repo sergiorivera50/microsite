@@ -4,6 +4,7 @@ Date: 2024-07-29
 tags:
   - math
 math: true
+draft: true
 ---
 
 In this post, we will depart from the fundamentals of vectors and arrive at matrices as transformation of basis, exploring the mathematical intuition behind reference frames, eigenvalues, and eigenvectors. The content presented here is heavily based from notes I personally took while following [Prof David Nye](https://profiles.imperial.ac.uk/david.dye)'s course on ["Mathematics for Machine Learning"](https://www.coursera.org/learn/linear-algebra-machine-learning?specialization=mathematics-machine-learning), which I highly recommend you take it. Big thanks to him for having such a great teaching style and personality.

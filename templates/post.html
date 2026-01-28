@@ -12,10 +12,10 @@
 {% if page.metadata.math | default(false) %}
     {% include 'partials/math.html' %}
 {% endif %}
-<!-- Progress bar -->
-{% include 'partials/progress-bar.html' %}
 <!-- Copy code snippet button -->
 {% include 'partials/code-clipboard.html' %}
+<!-- Sidenotes -->
+{% include 'partials/sidenotes.html' %}
 {% endblock %}
 {% block content %}
 <article class="post">
@@ -27,16 +27,19 @@
                 <span class="meta-separator">·</span>
                 <i><span class="reading-time">{{ page.reading_time }} min read</span></i>
             </span>
-            <span class="post-author">
-                <i class="written-by">written by</i>
-                <img src="/author.webp" alt="Sergio Rivera" class="author-image">
-                <strong>{{ site.author.name }}</strong>
-            </span>
+            {{ show_tags(page.metadata.tags) }}
         </div>
     </header>
     <div class="post-content">
         {{ page.content|safe }}
     </div>
-    {{ show_tags(page.metadata.tags) }}
+    <footer class="post-footer">
+        <a href="#" class="back-to-top">Back to top ↑</a>
+        <span class="post-author">
+            —
+            <img src="/author.webp" alt="{{ site.author.name }}" class="author-image">
+            <strong>{{ site.author.name }}</strong>
+        </span>
+    </footer>
 </article>
 {% endblock %}

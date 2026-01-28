@@ -1,0 +1,273 @@
+<style>
+/* ===================
+   SIDENOTES
+   =================== */
+
+/* Footnote reference in text */
+.footnote-ref {
+    font-size: 0.85em;
+    font-weight: bold;
+    vertical-align: super;
+    line-height: 0;
+    text-decoration: none;
+    color: var(--link-color);
+    padding: 0 2px;
+}
+
+.footnote-ref:hover {
+    text-decoration: underline;
+}
+
+/* Mobile: standard footnotes at bottom */
+.footnote {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed rgba(255, 255, 255, 0.2);
+    font-size: 0.875rem;
+}
+
+.footnote hr {
+    display: none;
+}
+
+.footnote ol {
+    padding-left: 1.25rem;
+    margin: 0;
+}
+
+.footnote li {
+    margin-bottom: 0.75rem;
+    color: var(--text-color);
+    opacity: 0.85;
+}
+
+.footnote li p {
+    margin: 0;
+    display: inline;
+}
+
+.footnote-backref {
+    margin-left: 0.25rem;
+    text-decoration: none;
+    color: var(--link-color);
+}
+
+/* Sidenotes (created by JS on wide screens) */
+.sidenote {
+    position: absolute;
+    width: 200px;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--text-color);
+    text-align: left;
+    
+    /* Fade-in animation */
+    opacity: 0;
+    transform: translateY(4px);
+    animation: sidenote-fade-in 0.4s ease-out forwards;
+}
+
+/* Stagger the animation for each sidenote */
+.sidenote:nth-child(1) { animation-delay: 0.05s; }
+.sidenote:nth-child(2) { animation-delay: 0.1s; }
+.sidenote:nth-child(3) { animation-delay: 0.15s; }
+.sidenote:nth-child(4) { animation-delay: 0.2s; }
+.sidenote:nth-child(5) { animation-delay: 0.25s; }
+.sidenote:nth-child(6) { animation-delay: 0.3s; }
+.sidenote:nth-child(7) { animation-delay: 0.35s; }
+.sidenote:nth-child(8) { animation-delay: 0.4s; }
+
+@keyframes sidenote-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 0.75;
+        transform: translateY(0);
+    }
+}
+
+.sidenote-number {
+    font-weight: bold;
+    color: var(--link-color);
+    margin-right: 0.25rem;
+}
+
+/* Ensure content flows inline with number */
+.sidenote p {
+    display: inline;
+    margin: 0;
+}
+
+/* Ensure KaTeX renders nicely in sidenotes */
+.sidenote .katex {
+    font-size: 0.95em;
+}
+
+/* Hide sidenotes on mobile */
+@media (max-width: 1100px) {
+    .sidenote {
+        display: none !important;
+    }
+}
+
+/* Wide screens: hide bottom footnotes when sidenotes are active */
+@media (min-width: 1101px) {
+    .footnote.sidenotes-active {
+        display: none;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const SIDENOTE_WIDTH = 200;
+    const SIDENOTE_GAP = 16;
+    const MIN_SCREEN_WIDTH = 1100;
+    const MARGIN_OFFSET = 40;
+
+    function initSidenotes() {
+        // Remove any existing sidenotes
+        document.querySelectorAll('.sidenote').forEach(el => el.remove());
+        
+        const footnoteSection = document.querySelector('.footnote');
+        if (!footnoteSection) return;
+
+        const postContent = document.querySelector('.post-content');
+        if (!postContent) return;
+
+        // Check screen width
+        if (window.innerWidth < MIN_SCREEN_WIDTH) {
+            footnoteSection.classList.remove('sidenotes-active');
+            return;
+        }
+
+        // Check available margin space
+        const contentRect = postContent.getBoundingClientRect();
+        const availableRight = window.innerWidth - contentRect.right;
+        const availableLeft = contentRect.left;
+        
+        const hasRightSpace = availableRight > SIDENOTE_WIDTH + MARGIN_OFFSET;
+        const hasLeftSpace = availableLeft > SIDENOTE_WIDTH + MARGIN_OFFSET;
+
+        if (!hasRightSpace && !hasLeftSpace) {
+            footnoteSection.classList.remove('sidenotes-active');
+            return;
+        }
+
+        // Extract footnote content (as HTML to preserve rendered LaTeX)
+        const footnotes = {};
+        footnoteSection.querySelectorAll('li').forEach(li => {
+            const id = li.id; // e.g., "fn:1"
+            if (!id) return;
+            
+            const num = id.replace('fn:', '');
+            
+            // Clone and remove backref, keeping HTML intact
+            const clone = li.cloneNode(true);
+            const backref = clone.querySelector('.footnote-backref');
+            if (backref) backref.remove();
+            
+            // Use innerHTML to preserve rendered KaTeX
+            footnotes[num] = clone.innerHTML.trim();
+        });
+
+        if (Object.keys(footnotes).length === 0) return;
+
+        // Make post-content position relative for absolute positioning
+        postContent.style.position = 'relative';
+
+        // Track positions for each side
+        let lastBottomRight = 0;
+        let lastBottomLeft = 0;
+        let useRightNext = hasRightSpace; // Start with right if available
+
+        // Find all footnote references and create sidenotes
+        const refs = postContent.querySelectorAll('.footnote-ref');
+        
+        refs.forEach((ref, index) => {
+            const href = ref.getAttribute('href');
+            if (!href) return;
+            
+            const num = href.replace('#fn:', '');
+            const content = footnotes[num];
+            if (!content) return;
+
+            // Get reference position relative to post-content
+            const refRect = ref.getBoundingClientRect();
+            const contentRect = postContent.getBoundingClientRect();
+            const refTop = refRect.top - contentRect.top + postContent.scrollTop;
+
+            // Decide which side to use
+            let useRight;
+            if (hasRightSpace && hasLeftSpace) {
+                // Alternate, but check for overlap
+                if (useRightNext) {
+                    useRight = refTop >= lastBottomRight + SIDENOTE_GAP;
+                    if (!useRight && refTop >= lastBottomLeft + SIDENOTE_GAP) {
+                        useRight = false;
+                    } else if (!useRight) {
+                        useRight = true; // Force right, will stack
+                    }
+                } else {
+                    useRight = !(refTop >= lastBottomLeft + SIDENOTE_GAP);
+                    if (useRight && refTop < lastBottomRight + SIDENOTE_GAP) {
+                        useRight = refTop >= lastBottomLeft + SIDENOTE_GAP ? false : true;
+                    }
+                }
+            } else {
+                useRight = hasRightSpace;
+            }
+
+            // Calculate top position (align with reference, but avoid overlap)
+            let top;
+            if (useRight) {
+                top = Math.max(refTop, lastBottomRight + SIDENOTE_GAP);
+            } else {
+                top = Math.max(refTop, lastBottomLeft + SIDENOTE_GAP);
+            }
+
+            // Create sidenote element
+            const sidenote = document.createElement('span');
+            sidenote.className = 'sidenote';
+            sidenote.innerHTML = `<span class="sidenote-number">${num}</span>${content}`;
+            sidenote.style.top = top + 'px';
+
+            if (useRight) {
+                sidenote.style.left = '100%';
+                sidenote.style.marginLeft = MARGIN_OFFSET + 'px';
+            } else {
+                sidenote.style.right = '100%';
+                sidenote.style.marginRight = MARGIN_OFFSET + 'px';
+            }
+
+            postContent.appendChild(sidenote);
+
+            // Update tracking
+            const sidenoteHeight = sidenote.offsetHeight;
+            if (useRight) {
+                lastBottomRight = top + sidenoteHeight;
+                useRightNext = false;
+            } else {
+                lastBottomLeft = top + sidenoteHeight;
+                useRightNext = true;
+            }
+        });
+
+        // Hide bottom footnotes
+        footnoteSection.classList.add('sidenotes-active');
+    }
+
+    // Wait for KaTeX to finish rendering before creating sidenotes
+    // KaTeX auto-render uses DOMContentLoaded, so we defer slightly
+    setTimeout(initSidenotes, 50);
+
+    // Re-run on resize (debounced)
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(initSidenotes, 150);
+    });
+});
+</script>

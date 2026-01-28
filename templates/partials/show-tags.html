@@ -1,9 +1,9 @@
 {% macro show_tags(tags) %}
 {% if tags %}
-<p>
+<span class="tags">
     {% for tag in tags %}
     <a href="/blog/{{ tag | slugify }}/">#{{ tag | capitalize }}</a>&nbsp;
     {% endfor %}
-</p>
+</span>
 {% endif %}
 {% endmacro %}
