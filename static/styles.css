@@ -381,7 +381,7 @@ ul.blog-posts li a:visited {
 }
 
 .post-footer {
-    margin-top: 3rem;
+    margin-top: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -391,7 +391,6 @@ ul.blog-posts li a:visited {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    opacity: 0.8;
 }
 
 .post-footer .author-image {
