@@ -1,5 +1,5 @@
 ---
-title: Practitioner's Guide for Decision Trees
+title: Practitioner's Guide to Decision Trees
 math: true
 draft:
 Date: 2026-01-28
@@ -70,7 +70,7 @@ clf = DecisionTreeClassifier(
 clf.fit(X_train, y_train)
 ```
 
-The `criterion` parameter accepts either `'gini'` or `'entropy`. In practice, they often yield similar trees[^4].
+The `criterion` parameter accepts either `'gini'` or `'entropy'`. In practice, they often yield similar trees[^4].
 
 Understanding what your tree has learned is crucial, we can do so by visualizing the decision boundaries, that is, the labels assigned to the partitioned feature space:
 
