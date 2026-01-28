@@ -1,23 +1,38 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        renderMathInElement(document.body, {
-            delimiters: [
-                {left: '\\[', right: '\\]', display: true},     // block
-                {left: '$$', right: '$$', display: true},       // block
-                {left: '\\(', right: '\\)', display: false},    // inline
-                {left: '$', right: '$', display: false},        // inline
-            ],
-            throwOnError : false
-        });
-    });
-</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
 <style>
-    .katex {
-        font-size: 1em !important;
-        overflow-x: auto;
-        overflow-y: hidden;
+    /* Hide content until KaTeX renders */
+    .post-content {
+        opacity: 0;
+        transition: opacity 0.3s ease-in;
+    }
+    
+    .post-content.math-rendered {
+        opacity: 1;
+    }
+    
+    .katex-display {
+        margin: 1.5em 0;
     }
 </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const content = document.querySelector('.post-content');
+        
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false}
+            ],
+            throwOnError: false
+        });
+        
+        // Show content after rendering
+        if (content) {
+            content.classList.add('math-rendered');
+        }
+    });
+</script>
