@@ -5,6 +5,7 @@ draft:
 Date: 2026-01-28
 tags:
   - models
+mermaid: false
 ---
 Decision trees remain one of the most intuitive yet powerful algorithms in our machine learning toolkit. Despite the rise of deep learning, their interpretability and effectiveness (especially as building blocks for ensemble methods) keep them relevant in production systems worldwide.
 
@@ -95,11 +96,9 @@ plt.tight_layout()
 We can also extract human-readable rules, if we prefer this format:
 
 ```python
-tree_rules = export_text(clf, feature_names=load_iris().feature_names)
-print(tree_rules)
-```
-
-```text
+text_tree = export_text(clf, feature_names=load_iris().feature_names)
+print(text_tree)
+"""
 |--- petal length (cm) <= 2.45
 |   |--- class: 0
 |--- petal length (cm) >  2.45
@@ -113,6 +112,7 @@ print(tree_rules)
 |   |   |   |--- class: 2
 |   |   |--- petal length (cm) >  4.85
 |   |   |   |--- class: 2
+"""
 ```
 
 ## The Overfitting Problem and Regularization
@@ -150,10 +150,7 @@ for alpha in ccp_alphas:
 
 optimal_alpha = ccp_alphas[np.argmax(cv_scores)]
 print(f"Optimal ccp_alpha: {optimal_alpha:.6f}")
-```
-
-```text
-Optimal ccp_alpha: 0.000000
+# Optimal ccp_alpha: 0.000000
 ```
 
 ## Feature Importance
@@ -172,13 +169,13 @@ for name, importance in sorted(
     reverse=True
 ):
     print(f"{name}: {importance:.4f}")
-```
-
-```text
+    
+"""
 petal length (cm): 0.5791
 petal width (cm): 0.4209
 sepal length (cm): 0.0000
 sepal width (cm): 0.0000
+"""
 ```
 
 Note that this measure has known biases, it tends to favor features with more unique values[^7]. For this reason, you may consider permutation importance as an alternative, although we will not be covering it in this post.
@@ -209,11 +206,10 @@ print(f"Random Forest Accuracy: {rf.score(X_test, y_test):.4f}")
 gb = GradientBoostingClassifier(n_estimators=100, max_depth=3, random_state=42)
 gb.fit(X_train, y_train)
 print(f"Gradient Boosting Accuracy: {gb.score(X_test, y_test):.4f}")
-```
-
-```text
+"""
 Random Forest Accuracy: 0.9000
 Gradient Boosting Accuracy: 0.9667
+"""
 ```
 
 ## Personal Recommendations
